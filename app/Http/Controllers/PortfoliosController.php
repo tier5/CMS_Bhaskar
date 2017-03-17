@@ -470,5 +470,79 @@ public function deleteportfolio(Request $request)
 	}
 }
 
+public function addtags(Request $request)
+{
+ 
+$portfolio=Portfolio::find($request->id);
+return json_encode(Tag::all()->diff($portfolio->tags));
+	
+}
+
+public function saveaddtag(Request $request)
+{
+	$this->validate($request,[
+		'project_category'=>'required',
+		]);
+	$multiple="";
+	if($request->project_category){
+				
+								if($request->portfolio_id)
+								{
+									foreach ($request->project_category as $category) {
+				
+			    					$multiple.=$category.",";
+								}
+									$portfolio=Portfolio::find($request->portfolio_id);
+				 					$tag=Tag::whereIn('id',explode(',',$multiple))->get();
+									$portfolio->tags()->attach($tag);
+									return redirect()->route('createportfolios')->with('success','Posted Successfully');
+								}	
+								else
+								{
+									return redirect()->route('createportfolios')->with('error','Not Posted');	
+								}
+							}
+
+}
+
+
+public function removetagid(Request $request)
+{
+ 
+$portfolio=Portfolio::find($request->id);
+return json_encode(Tag::all()->intersect($portfolio->tags));
+	
+}
+
+
+public function removetags(Request $request)
+{
+ 
+$this->validate($request,[
+		'project_category'=>'required',
+		]);
+	$multiple="";
+	if($request->project_category){
+				
+								if($request->portfolio_id)
+								{
+									foreach ($request->project_category as $category) {
+				
+			    					$multiple.=$category.",";
+								}
+									$portfolio=Portfolio::find($request->portfolio_id);
+				 					$tag=Tag::whereIn('id',explode(',',$multiple))->get();
+									$portfolio->tags()->detach($tag);
+									return redirect()->route('createportfolios')->with('success','Removed Successfully');
+								}	
+								else
+								{
+									return redirect()->route('createportfolios')->with('error','Not Removed');	
+								}
+							}
+
+}
+
+
 
 }

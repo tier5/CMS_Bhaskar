@@ -1,5 +1,4 @@
 
-
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -118,66 +117,42 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                   @if(Route::current()->getName()=="Admin_home")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
+
+
+                  
+                    <li class="@if(Route::current()->getName()=='Admin_home'){{'active'}}@endif">
+                  
                         <a href="{{route('Admin_home')}}"><i class="fa fa-fw fa-home"></i> Home</a>
                     </li>
 
 
-                    
-                     @if(Route::current()->getName()=="createportfolios"||Route::current()->getName()=="showportfoliotable")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
+     
+                    <li class="@if(Route::current()->getname()=='createportfolios'||Route::current()->getname()=='showportfoliotable'){{'active'}}@endif">
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-book"></i> Portfolio<i class="fa fa-fw fa-caret-down"></i> </a>
-                         <ul id="demo" class="collapse">
-                             @if(Route::current()->getName()=="createportfolios")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif<a href="{{route('createportfolios')}}"><i class="fa fa-sm fa-plus"> Add</i></a>
-                            </li>
-                             @if(Route::current()->getName()=="showportfoliotable")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
-        <a href="{{route('showportfoliotable')}}"><i class="fa fa-sm fa-table"> View Table</i></a>     
-                            </li>
+                         <ul id="demo">
+                            <li class="@if(Route::current()->getName()=='createportfolios'){{'active'}}@endif"><a href="{{route('createportfolios')}}"><i class="fa fa-sm fa-plus"> Add</i></a></li>
+                            <li class="@if(Route::current()->getName()=='showportfoliotable'){{'active'}}@endif"><a href="{{route('showportfoliotable')}}"><i class="fa fa-sm fa-table"> View Table</i></a></li>
                         </ul>
                     </li>
-                      @if(Route::current()->getName()=="createtags"||Route::current()->getName()=="showtagtable")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
+                   
+
+   
+                   <li class=" @if(Route::current()->getName()=='createtags'||Route::current()->getName()=='showtagtable'){{'active'}}@endif">
                         <a href="javascript:;" data-toggle="collapse" data-target="#tables"><i class="fa fa-fw fa-tags"></i> Tags<i class="fa fa-fw fa-caret-down"></i> </a>
-                         <ul id="tables" class="collapse">
-                             @if(Route::current()->getName()=="createtags")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
-            <a href="{{route('createtags')}}"><i class="fa fa-sm fa-plus"> Add</i></a>
-                            </li>
-                             @if(Route::current()->getName()=="showtagtable")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
-            <a href="{{route('showtagtable')}}"><i class="fa fa-sm fa-table"> View Table</i></a>  
-                            </li>
-                        </ul>
+                         <ul id="tables" class= "@if(Route::current()->getname()=='createtags'||Route::current()->getname()=='showtagtable'){{'collapsed in'}}@else{{'collapse'}}@endif">
+                             
+                   <li class="@if(Route::current()->getName()=='createtags'){{'active'}}@endif">
+                    <a href="{{route('createtags')}}"><i class="fa fa-sm fa-plus"> Add</i></a>
+                   </li>
+                             
+                   <li class="@if(Route::current()->getName()=='showtagtable'){{'active'}}@endif">
+                   <a href="{{route('showtagtable')}}"><i class="fa fa-sm fa-table"> View Table</i></a>  
                     </li>
-                    @if(Route::current()->getName()=="createportfolios")
-                   <li class="active">
-                   @else
-                   <li>
-                   @endif
+                    </ul>
+                    </li>
+                    
+                   <li class="@if(Route::current()->getName()=='createportfolios'){{'active'}}@endif">
+                  
                         <a href="forms.html"><i class="fa fa-fw fa-history"></i> Chat Logs</a>
                     </li>
                     

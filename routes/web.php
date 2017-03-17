@@ -12,9 +12,9 @@
 */
 
 Route::group(['middleware'=>['web']],function(){
-session([
+// session([
 	
-	]);
+// 	]);
 //Session::put('ip',$ip=getRealIpAddr());
 //Session::put('name',$browser_name=browser_name());
 //Session::put('platform',$browser_platform=browser_platform());
@@ -22,14 +22,16 @@ session([
 
 Route::get('/','HomeController@index')->name('Home');
 
+
 Route::get('/home','UsersController@home');
 
-Route::get('/backend/admin','UsersController@adminlogin')->name('adminlogin');
+Route::get('/backend/admin','UsersController@adminlogin')->name('adminlogin')->middleware('guest');
 
 Route::get('/login','UsersController@loginredirect')->name('redirect');
 
 Route::post('/signin','UsersController@login')->name('login');
 });
+Route::post("/getip",'HomeController@get_details')->name('ip');
 
 
 
@@ -59,6 +61,15 @@ Route::post('/changelink','PortfoliosController@changelink')->name('changelink')
 Route::post('/savelink','PortfoliosController@savelink')->name('savelink');
 
 Route::post('/deleteportfolios','PortfoliosController@deleteportfolio')->name('deleteportfolios');
+
+Route::post('/addtags','PortfoliosController@addtags')->name('addTag');
+
+Route::post('/saveaddtag','PortfoliosController@saveaddtag')->name('saveaddtag');
+
+Route::post('/removetagid','PortfoliosController@removetagid')->name('removeTagid');
+
+Route::post('/removetags','PortfoliosController@removetags')->name('removetags');
+
 
 Route::get('/createtags','TagsController@createtags')->name('createtags');
 

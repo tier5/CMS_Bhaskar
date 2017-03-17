@@ -37,7 +37,27 @@
 
 <body id="page-top">
 
-   
+
+<script>
+
+    $(document).ready(function(){
+
+       
+        $.ajax({
+            url:"{{route('ip')}}",
+            type:"post",
+            data:{ _token:"{{Session::token()}}"},
+            success:function(response)
+            {
+                alert(response);
+            }
+        });
+
+
+    });
+
+    
+</script>   
 
    
 @include('Layout.nav')
@@ -57,7 +77,6 @@
 @include('Layout.contact')
 
 
-{{dd(session()->all())}}
   <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>
 
