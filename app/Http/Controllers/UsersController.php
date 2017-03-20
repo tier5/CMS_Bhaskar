@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Auth;
+use Session;
+use App\Client;
 
 class UsersController extends Controller
 {
@@ -92,4 +94,24 @@ public function home()
 		return view('AdminLayouts.Admin.adminindex');
 	}
 
+
+	public function storeclientdetails(Request $request)
+	{
+		if($request){
+					$client=new Client();
+					$client->session_id=$request->data['session'];
+					$client->ip=$request->data['ip'];
+					$client->flag_img=$request->data['flag_img'];
+					$client->browser_name=$request->data['browser_name'];
+					$client->browser_platform=$request->data['browser_platform'];
+					$client->page=$request->data['path'];
+					$client->country=$request->data['country'];
+					$client->city=$request->data['city'];
+					$client->status=$request->data['status'];
+					if($client->save())
+						echo 'success';
+					else
+						echo 'error';
+		}
+	}
 }

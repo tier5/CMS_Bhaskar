@@ -10,10 +10,6 @@ use Intervention\Image\Facades\Image;
 
 class PortfoliosController extends Controller
 {
-    public function index()
-	{
-		return view('PortFolio.Portfolios');
-	}
 
 
 
@@ -60,19 +56,19 @@ public function storeportfolios(Request $request)
        $file=$request->file('file_upload');	
 		$input=File::name($file->getClientOriginalName()).time().mt_rand(0,mt_getrandmax()).".".$file->getClientOriginalExtension();
 
-		if(!file_exists(public_path()."/image/"))
+		if(!file_exists(public_path()."/image/portfolio/fullsize/"))
 		{
-			mkdir(public_path()."/image/",0777,true);
+			mkdir(public_path()."/image/portfolio/fullsize/",0777,true);
 		}
-		$destination=public_path()."/image/";
+		$destination=public_path()."/image/portfolio/fullsize/";
 
 		if($file->move($destination,$input))
 			{
-					if(!file_exists(public_path()."/image/thumbnails/"))
+					if(!file_exists(public_path()."/image/portfolio/fullsize/thumbnails/"))
 						{
-							mkdir(public_path()."/image/thumbnails/",0777,true);
+							mkdir(public_path()."/image/portfolio/fullsize/thumbnails/",0777,true);
 						}
-						$thumbs=Image::make(public_path()."/image/".$input)->resize(650,350)->save(public_path()."/image/thumbnails/".$input,50);
+						$thumbs=Image::make(public_path()."/image/portfolio/fullsize/".$input)->resize(650,350)->save(public_path()."/image/portfolio/fullsize/thumbnails/".$input,50);
 								
 								$portfolio=new Portfolio();
 								$portfolio->project_title=$request->project_title;
@@ -91,6 +87,10 @@ public function storeportfolios(Request $request)
 				
 			    					$multiple.=$category.",";
 								}
+
+								if(strpos($multiple,"1,")===false)
+								{$multiple.="1".",";}	
+					
 
 				 					$tag=Tag::whereIn('id',explode(',',$multiple))->get();
 								}
@@ -273,20 +273,22 @@ $this->validate($request,[
 		$file=$request->file('file_upload');	
 		$input=File::name($file->getClientOriginalName()).time().mt_rand(0,mt_getrandmax()).".".$file->getClientOriginalExtension();
 
-		if(!file_exists(public_path()."/image/"))
+		if(!file_exists(public_path()."/image/portfolio/fullsize/"))
 		{
-			mkdir(public_path()."/image/",0777,true);
+			mkdir(public_path()."/image/portfolio/fullsize/",0777,true);
 		}
-		$destination=public_path()."/image/";
+		$destination=public_path()."/image/portfolio/fullsize/";
 
 		if($file->move($destination,$input))
 			{
-					if(!file_exists(public_path()."/image/thumbnails/"))
+					if(!file_exists(public_path()."/image/portfolio/fullsize/thumbnails/"))
 						{
-							mkdir(public_path()."/image/thumbnails/",0777,true);
+							mkdir(public_path()."/image/portfolio/fullsize/thumbnails/",0777,true);
 						}
-						$thumbs=Image::make(public_path()."/image/".$input)->resize(650,350)->save(public_path()."/image/thumbnails/".$input,50);
+
+						$thumbs=Image::make(public_path()."/image/portfolio/fullsize/".$input)->resize(650,350)->save(public_path()."/image/portfolio/fullsize/thumbnails/".$input,50);
 				
+		
 								$portfolio=Portfolio::find(decrypt($request->project_id));
 								$portfolio->project_title=$request->project_title;
 								$portfolio->project_desc=$request->project_description;
@@ -302,6 +304,7 @@ $this->validate($request,[
 				
 			    					$multiple.=$category.",";
 								}
+					
 
 				 					$tag=Tag::whereIn('id',explode(',',$multiple))->get();
 								}
@@ -327,9 +330,6 @@ $this->validate($request,[
 
 				if(Tag::first())
 				   {
-					
-					if(strpos($multiple,"1,")===false)
-					{$multiple.="1".",";}	
 					
 				 $tag=Tag::whereIn('id',explode(',',$multiple))->get();
 				}
@@ -369,7 +369,7 @@ $this->validate($request,[
 				$portfolio->project_details1=$request->project_detail1;
 				$portfolio->project_details2=$request->project_detail2;
 				$portfolio->project_details3=$request->project_detail3;
-				$portfolio->project_image="default.jpg";
+				
 				if($request->project_category){
 				
 								if(Tag::latest()->first())
@@ -378,7 +378,7 @@ $this->validate($request,[
 				
 			    					$multiple.=$category.",";
 								}
-
+						
 				 					$tag=Tag::whereIn('id',explode(',',$multiple))->get();
 								}
 								else
@@ -401,8 +401,7 @@ $this->validate($request,[
 			if(Tag::first())
 				   {
 					
-					if(strpos($multiple,"1,")===false)
-					{$multiple.="1".",";}	
+					
 					
 				 $tag=Tag::whereIn('id',explode(',',$multiple))->get();
 				}

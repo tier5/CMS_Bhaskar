@@ -143,6 +143,7 @@ $("#fileupload").change(function(){
                                     @endforeach
                                     @endif
                                 </select>
+                                <p class="help-block">****Takes "Default" As Tag If No Category Is Available.</p>
                             </div>
                             
 

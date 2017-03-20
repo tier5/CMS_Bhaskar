@@ -22,9 +22,9 @@ function startmodal(id)
     var parsed = JSON.parse(data);
 
 
-
+    alert(parsed.project_image);
     $('#portfolioModalHeading').html(parsed.project_title);
-    $('#portfolioModalImage').attr('src',"{{url('/')}}/image/"+parsed.project_image);
+    $('#portfolioModalImage').attr('src',"{{url('/')}}/image/portfolio/fullsize/"+parsed.project_image);
     $('#portfolioModalDescription').html(parsed.project_title);
     $('#portfolioModalLink').attr('href',parsed.project_link);
     $('#portfolioModalLink').html(parsed.project_link);
@@ -150,6 +150,7 @@ function addtag(id)
              if(length!=0){
                $("#addtagform").css("display", "block");
                $('#info').css("display", "none");
+               $("#addtagbtn").css("display", "none");
                 $('#addtagmultiple option').remove();
                              for(item in data){
                                      if(data[item].id!=1)
@@ -161,6 +162,7 @@ function addtag(id)
                                      $("#addtagform").css("display", "none");
                                       $('#info').css("display", "block");
                                     $('#info').html("Unfortunately,no tags present.");
+                                      $("#addtagbtn").css("display", "block");
                                   }
                  $('#addTag').modal('toggle');
             }
@@ -196,7 +198,8 @@ function remtag(id)
         document.getElementById("remtagform").appendChild(input);
                 data=JSON.parse(response);
                length=Object.keys(data).length;
-             if(length!=0){
+             if(length!=1){
+               $('#remtaginfo').css("display", "none");
                $("#remtagform").css("display", "block");
                $('#info').css("display", "none");
                 $('#remtagmultiple option').remove();
@@ -205,10 +208,11 @@ function remtag(id)
                                      {
                        $('#remtagmultiple').append($('<option></option>').attr('value',data[item].id).text(data[item].name));
                                      }
-                                  }         console.log('hi');              } else
-                                  {console.log('hello');
+                                  }                       } else
+                                  {
                                      $("#remtagform").css("display", "none");
-                                    $('#info').html("Unfortunately,no tags present.");
+                                       $('#remtaginfo').css("display", "block");
+                                    $('#remtaginfo').html("Unfortunately,no tags present.");
                                   }
                  $('#remTag').modal('toggle');
             }
@@ -304,6 +308,7 @@ function remtag(id)
                                         <td></td>
                                         <td></td>
                                         <td colspan="3"></td>
+                                        <td colspan="2"></td>
                                         
                                     </tr>
                                 </tbody>
@@ -340,8 +345,8 @@ function remtag(id)
                                 <hr>
                                 <p>
                                     <strong>Take A Look: </strong>
-                                 <a id="portfolioModalLink"></a></p></center>
-                                 <hr>
+                                 <a id="portfolioModalLink"></a></p>
+                                 <hr></center>
 
                                 <ul><strong>Details: </strong>
                                     <li id="portfolioDetails1"></li>
@@ -475,6 +480,8 @@ function remtag(id)
                                       <div class="row">
                                          <div class="col-lg-6" >
                         <center><span id="info"></span></center>
+                        <br>
+                        <center><a href="{{route('createtags')}}" id="addtagbtn" class="btn btn-success" style="display:none"><i class="fa fa-plus">Create Tags</i></a></center>
                         <form id="addtagform" method="post" action="{{route('saveaddtag')}}" >
                                 {{csrf_field()}}
                              <div class="form-group">
@@ -558,7 +565,7 @@ function remtag(id)
        
                                       <div class="row">
                                          <div class="col-lg-6" >
-                        <center><span id="info"></span></center>
+                        <center><span id="remtaginfo"></span></center>
                         <form id="remtagform" method="post" action="{{route('removetags')}}" >
                                 {{csrf_field()}}
                              <div class="form-group">

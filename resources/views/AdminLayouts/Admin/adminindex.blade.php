@@ -17,7 +17,7 @@
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Page</th>
+                                        <th></th>
                                         <th>Visits</th>
                                         <th>% New Visits</th>
                                         <th>Revenue</th>

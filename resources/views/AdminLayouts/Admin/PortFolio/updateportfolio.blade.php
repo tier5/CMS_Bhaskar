@@ -97,7 +97,7 @@ $("#fileupload").change(function(){
 
                             <div class="form-group">
                                 <span id="image">
-                               <img id="previewHolder" src="{{url('/')}}/image/{{$id->project_image}}"alt="Uploaded Image Preview Holder" width="250px" height="250px"/><br>
+                               <img id="previewHolder" src="{{url('/')}}/image/portfolio/fullsize/{{$id->project_image}}" name="preview" alt="Uploaded Image Preview Holder" width="250px" height="250px"/><br>
                                 <label>Image:</label>
                                 <input type="file" name="file_upload" id="fileupload" accept="image/gif,image/jpeg,image/jpg,image/png">
                                 </span>

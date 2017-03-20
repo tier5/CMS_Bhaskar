@@ -1,7 +1,36 @@
 @extends('PortFolio.portfoliomaster')
 
 @section('content')
-     <style>
+<script>
+   
+   function changetag(id)
+   {
+    if(id)
+    {
+        $.ajax({
+                url:"{{route('changetag')}}",
+                type:"post",
+                data:{id:id, _token:"{{Session::token()}}"},
+        
+                success:function(response)
+                        {
+                           // alert(response);
+                             $('#tags_portfolio').html(response); 
+                        }}
+                );
+    }
+    else
+    {
+        alert('error');
+    }
+
+   }
+
+    
+
+</script>
+
+<style>
 
 .modal-dialog {
   width: 100%;
@@ -18,6 +47,25 @@
 
      </style>
 
+@if(isset($tag_default))
+<section id="tagbuttons" class="bg-darkest-gray">
+<div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Tags</h2>
+                    <h3 class="section-subheading text-muted">Available Tags.</h3>
+                </div>
+</div>
+<div class="col-center"><center>
+@foreach($tag_default as $tag)
+<a class="btn btn-primary btn-sm " id="tag_{{$tag->id}}" onclick="changetag({{$tag->id}})">{{$tag->name}}</a>
+@endforeach
+</div>
+</center>
+</section>
+@endif
+
+
+
   <section id="portfolio" class="bg-light-gray">
         <div class="container">
             <div class="row">
@@ -26,8 +74,11 @@
                     <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-6 portfolio-item">
+
+
+<div id="start">
+ <div class="row" id="tags_portfolio">
+        <div class="col-md-4 col-sm-6 portfolio-item">
                     <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -116,6 +167,8 @@
         <div align="center">
         @include('PortFolio.pagination')
         </div>
+</div>
+
     </section>
 
 

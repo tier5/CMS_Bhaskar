@@ -33,33 +33,46 @@
     <![endif]-->
     <script   src="https://code.jquery.com/jquery-3.1.1.js"   integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="   crossorigin="anonymous"></script>
 
-</head>
-
-<body id="page-top">
-
-
 <script>
-
     $(document).ready(function(){
 
-       
+    
         $.ajax({
             url:"{{route('ip')}}",
             type:"post",
-            data:{ _token:"{{Session::token()}}"},
+            data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
             success:function(response)
-            {
-                alert(response);
+            {   
+                
+                data=response;
+               
+                $.ajax({
+
+                    url:"{{route('storeclient')}}",
+                    type:"post",
+                    data:{data:data, _token:"{{Session::token()}}"},
+
+                    success:function(response)
+                        {
+                            console.log(response);
+                        }
+
+                });
+
             }
         });
 
 
     });
 
-    
-</script>   
+    </script>
+ 
+</head>
 
-   
+<body id="page-top">
+
+
+
 @include('Layout.nav')
 @include('Layout.header')
 @include('Layout.about')
@@ -76,6 +89,7 @@
 
 @include('Layout.contact')
 
+     
 
   <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>
@@ -91,6 +105,7 @@
 
     <!-- Theme JavaScript -->
     <script src="/js/creative.min.js"></script>
+
 </body>
 
 </html>

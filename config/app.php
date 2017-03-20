@@ -178,7 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Torann\GeoIP\GeoIPServiceProvider::class,
+       
 
     ],
 
@@ -230,7 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         
         'Image' => Intervention\Image\Facades\Image::class,
-        'GeoIP' => Torann\GeoIP\GeoIPFacade::class,
+
     ],
 
 ];

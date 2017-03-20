@@ -9,7 +9,7 @@
         "intervention/image": "dev-master",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "torann/geoip": "^1.0"
+        "tenfef/ipfind-php": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
