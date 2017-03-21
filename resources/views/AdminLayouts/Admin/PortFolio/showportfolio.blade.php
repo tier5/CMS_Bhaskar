@@ -22,7 +22,6 @@ function startmodal(id)
     var parsed = JSON.parse(data);
 
 
-    alert(parsed.project_image);
     $('#portfolioModalHeading').html(parsed.project_title);
     $('#portfolioModalImage').attr('src',"{{url('/')}}/image/portfolio/fullsize/"+parsed.project_image);
     $('#portfolioModalDescription').html(parsed.project_title);

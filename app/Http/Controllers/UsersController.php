@@ -91,7 +91,16 @@ public function home()
 
 	public function adminhome()
 	{
-		return view('AdminLayouts.Admin.adminindex');
+
+		if(Client::first())
+		{
+			$clients=Client::all();
+			return view('AdminLayouts.Admin.adminindex',compact('clients'));		
+		}
+		else
+		{
+			return view('AdminLayouts.Admin.adminindex');		
+		}
 	}
 
 
@@ -109,9 +118,10 @@ public function home()
 					$client->city=$request->data['city'];
 					$client->status=$request->data['status'];
 					if($client->save())
-						echo 'success';
+						{	Session::put('key',Session::getid());
+							echo 'success';}
 					else
-						echo 'error';
+						{echo 'error';}
 		}
 	}
 }

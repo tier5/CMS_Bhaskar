@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware'=>['web']],function(){
+Route::group(['middlewareGroups'=>['web']],function(){
 // session([
 	
 // 	]);
@@ -24,7 +24,7 @@ Route::get('/','HomeController@index')->name('Home');
 
 Route::post('/changetag','HomeController@changetag')->name('changetag');
 
-Route::get('/home','UsersController@home');
+Route::get('/home','UsersController@home')->name('redirect');
 
 Route::get('/backend/admin','UsersController@adminlogin')->name('adminlogin')->middleware('guest');
 
@@ -33,12 +33,22 @@ Route::get('/login','UsersController@loginredirect')->name('redirect');
 Route::post('/signin','UsersController@login')->name('login');
 
 Route::get('/showportfolios','HomeController@portfolios')->name('portfolios');
-});
-
 
 Route::post("/getip",'HomeController@get_details')->name('ip');
 
 Route::post("/storeclient",'UsersController@storeclientdetails')->name('storeclient');
+
+Route::post("/goneclient",'HomeController@clientgone')->name('client_gone');
+
+Route::post('/getportfolio',"HomeController@getportfolio")->name('getportfolio');
+});
+
+
+
+
+
+
+
 
 
 

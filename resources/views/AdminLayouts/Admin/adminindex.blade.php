@@ -6,7 +6,7 @@
                     <div class="col-lg-8">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Multiple Axes Line Graph Example with Tooltips and Raw Data</h3>
+                                <h3 class="panel-title"><i class="fa fa-question-circle"></i>Unknown Visitorss</h3>
                             </div>
                             <div class="panel-body">
                                 
@@ -17,11 +17,13 @@
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Visits</th>
-                                        <th>% New Visits</th>
-                                        <th>Revenue</th>
-                                        <th>Throw/Accept</th>
+                                        <th>IP</th>
+                                        <th>Browser Name</th>
+                                        <th>Browser Platform</th>
+                                        <th>Path</th>
+                                        <th>Country</th>
+                                        <th>City</th>
+                                        <th>Flag</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,14 +42,22 @@
                                         <td>$234.12</td>
                                         <td><button type="button" class="btn btn-sm btn-danger">Danger</button></td>
                                     </tr>
-                                    <tr class="warning">
-                                        <td>/sales.html</td>
-                                        <td>665</td>
-                                        <td>21.3%</td>
-                                        <td>$16.34</td>
+                                    @if(isset($clients))
+                                    @foreach($clients as $client)
+                                    <tr class="danger">
+                                        <td>{{$client->ip}}</td>
+                                        <td>{{$client->browser_name}}</td>
+                                        <td>{{$client->browser_platform}}</td>
+                                        <td>{{$client->page}}</td>
+                                        <td>{{$client->country}}</td>
+                                        <td>{{$client->city}}</td>
+                                        <td><img src="{{$client->flag_img}}"></td>
                                         <td><button type="button" class="btn btn-sm btn-danger">Danger</button></td>
                                     </tr>
-                                    <tr class="danger">
+                                    @endforeach
+                                    @endif
+                                    <tr class="warning">
+                                    
                                         <td>/blog.html</td>
                                         <td>9516</td>
                                         <td>89.3%</td>
@@ -94,7 +104,7 @@
  <div class="col-lg-4">
                         <div class="panel panel-green">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Pie Chart Example with Tooltips</h3>
+                                <h3 class="panel-title"><i class="fa fa-users"></i> Known Visitors</h3>
                             </div>
                             <div class="panel-body">
                                

@@ -1,3 +1,56 @@
+     <script>
+         
+          function startmodal(id)
+    {
+        if(id){
+        $.ajax({
+                    type:'post',
+                    url:'{{route("getportfolio")}}',
+                    data:{id:id, _token:"{{Session::token()}}" },
+    
+            success:function(response)
+                {
+                    //alert(response);
+                     var data = response;
+    
+    var parsed = JSON.parse(data);
+
+
+    $('#portfolioModalHeading').html(parsed.project_title);
+    $('#portfolioModalImage').attr('src',"{{url('/')}}/image/portfolio/fullsize/"+parsed.project_image);
+    $('#portfolioModalDescription').html(parsed.project_title);
+    $('#portfolioModalLink').attr('href',parsed.project_link);
+    $('#portfolioModalLink').html(parsed.project_link);
+
+    if(parsed.project_details1)
+    {$('#portfolioDetails1').html(parsed.project_details1);}
+    else
+    {$("#portfolioDetails1").css("display", "none");}
+
+    if(parsed.project_details2)
+    {$('#portfolioDetails2').html(parsed.project_details2);}
+    else
+    {$("#portfolioDetails2").css("display", "none");}
+    if(parsed.project_details3)
+    {$('#portfolioDetails3').html(parsed.project_details3);}
+    else
+    {$("#portfolioDetails3").css("display", "none");}
+    $('#portfolioModalDate').html(parsed.created_at);
+    $('#portfolioModalCategory').html(parsed.project_category);
+    $('#portfolioModal1').modal('toggle');
+        
+                }   
+    
+        });}
+    else
+    {
+        alert('error');
+    }
+
+
+    }
+     </script>
+
      <style>
 
 .modal-dialog {
@@ -17,98 +70,26 @@
  <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
+            @if(isset($portfolios))
+                @foreach($portfolios as $portfolio)
                 <div class="col-lg-4 col-sm-6">
-                    <a href="#portfolioModal1" class="portfolio-box" data-toggle="modal">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/1.jpg" class="img-responsive" alt="">
+                    <a onclick="startmodal({{$portfolio->id}})" class="portfolio-box" data-toggle="modal">
+                        <img src="{{url('/')}}/image/portfolio/fullsize/thumbnails/{{$portfolio->project_image}}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    Category
+                                    {{$portfolio->tags->pluck('name')}}
                                 </div>
                                 <div class="project-name">
-                                    Project Name
+                                    {{$portfolio->project_title}}
                                 </div>
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/2.jpg" class="portfolio-box">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/2.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/3.jpg" class="portfolio-box">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/3.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="/img/portfolio/fullsize/6.jpg" class="portfolio-box">
-                        <img src="{{url('/')}}/img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
-                        <div class="portfolio-box-caption">
-                            <div class="portfolio-box-caption-content">
-                                <div class="project-category text-faded">
-                                    Category
-                                </div>
-                                <div class="project-name">
-                                    Project Name
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+                @endforeach
+                @endif
+              
     </section>
 
     
@@ -123,23 +104,35 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
+                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2">
                             <div class="modal-body">
                                 <!-- Project Details Go Here -->
-                                <h2>Project Name</h2>
-                                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                <img class="img-responsive img-centered" src="img/portfolio/roundicons-free.png" alt="">
-                                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                              <center>  <h2 id="portfolioModalHeading"></h2>
+                                <p class="item-intro text-muted">Copyright CMS.</p>
+                                <hr>
+                                <img id="portfolioModalImage" class="img-responsive img-centered"  alt="">
+                                <hr>
+                                <p id="portfolioModalDescription"><strong>Description: </strong></p>
+                                <hr>
                                 <p>
-                                    <strong>Want these icons in this portfolio item sample?</strong>You can download 60 of them for free, courtesy of <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">RoundIcons.com</a>, or you can purchase the 1500 icon set <a href="https://getdpd.com/cart/hoplink/18076?referrer=bvbo4kax5k8ogc">here</a>.</p>
-                                <ul class="list-inline">
-                                    <li>Date: July 2014</li>
+                                    <strong>Take A Look: </strong>
+                                 <a id="portfolioModalLink"></a></p>
+                                 <hr></center>
+
+                                <ul><strong>Details: </strong>
+                                    <li id="portfolioDetails1"></li>
+                                    <li id="portfolioDetails2"></li>
+                                    <li id="portfolioDetails3"></li>
+                                </ul> 
+                                <hr>
+                                <center><ul class="list-inline">
+                                    <li id="portfolioModalDate"><strong>Date:</strong></li>
                                     <li>Client: Round Icons</li>
-                                    <li>Category: Graphic Design</li>
-                                </ul>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button>
+                                    <li id="portfolioModalCategory"></li>
+                                </ul> </center>
+                               <center> <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close Project</button></center>
                             </div>
                         </div>
                     </div>

@@ -37,6 +37,7 @@
 </head>
 
 <body id="page-top">
+
 <script>
     $(document).ready(function(){
 
@@ -49,39 +50,6 @@
    @include('Layout.header')
 
     @yield('content')        
- 
-<div class="chat-section  ">
-        <div class="chat-head">
-          Chat
-          <button>-</button>
-        </div>  
-        <div class="chat-body" >
-           <div class="chat-data" id="chat-data" >
-              </div>
-          <div class="bottom-part">
-           
-            <input type="hidden" id="user_id" value="4230">
-            
-              <div class="chat-info" id="info-chat" style="">
-                  
-
-                  <p>What is your name?</p>
-                  <input type="text" placeholder="Please put your name" id="user_name">
-                  <p>What is your email?</p>
-                  <input type="text" placeholder="Please put your valid email" id="user_email" required>
-                  <input type="submit" value="Let's Chat" onclick="register_chat_name()">
-                </div>
-                 
-             
-              
-                
-           
-           
-                <textarea id="send_message" style="display:none" onkeyup="send_chat(event)"></textarea>  
-                
-          </div>
-        </div>  
-      </div> 
 
    @include('Auth.Footer')
   

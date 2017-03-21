@@ -36,41 +36,46 @@
 <script>
     $(document).ready(function(){
 
-    
-        $.ajax({
-            url:"{{route('ip')}}",
-            type:"post",
-            data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
-            success:function(response)
-            {   
-                
-                data=response;
-               
-                $.ajax({
-
-                    url:"{{route('storeclient')}}",
-                    type:"post",
-                    data:{data:data, _token:"{{Session::token()}}"},
-
-                    success:function(response)
-                        {
-                            console.log(response);
-                        }
-
-                });
-
-            }
-        });
-
+  if(!'{{Session::has("key")}}')
+      { $.ajax({
+                          url:"{{route('ip')}}",
+                          type:"post",
+                          data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
+                          success:function(response)
+                          {   
+                              
+                              data=response;
+       
+                               $.ajax({
+                                    
+                                url:"{{route('storeclient')}}",
+                                type:"post",
+                                data:{data:data, _token:"{{Session::token()}}"},
+            
+                                success:function(response)
+                                    {
+                                       return;
+                                    }
+          
+                             });
+                               
+                             
+              
+                          }
+                      });
+             }
+        else
+        {
+          return;
+        } 
 
     });
 
-    </script>
+    </script> 
  
 </head>
 
 <body id="page-top">
-
 
 
 @include('Layout.nav')
