@@ -36,11 +36,12 @@ Route::get('/showportfolios','HomeController@portfolios')->name('portfolios');
 
 Route::post("/getip",'HomeController@get_details')->name('ip');
 
-Route::post("/storeclient",'UsersController@storeclientdetails')->name('storeclient');
 
-Route::post("/goneclient",'HomeController@clientgone')->name('client_gone');
+Route::get("/goneclient",'HomeController@clientgone')->name('client_gone');
 
 Route::post('/getportfolio',"HomeController@getportfolio")->name('getportfolio');
+
+Route::post('/updateclient',"HomeController@updateclient")->name('updateclient');
 });
 
 

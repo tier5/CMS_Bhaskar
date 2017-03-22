@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Carbon\Carbon;
+use App\Client;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +26,26 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+
+       $schedule->call(function(){
+        $datetime1=Carbon::now()->addSeconds(-5);
+   
+   //$clients=Client::where('updated_at','<=',$datetime1)->update(['status'=>0]);
+  $clients=Client::all();
+           foreach($clients as $client)
+           {
+             if($client->updated_at<=$datetime1)
+             {
+                $client->status=0;
+               $client->update();
+             }
+             else
+             {
+              $client->status=1;
+               $client->update();
+             }
+           }
+       })->everyMinute();
         // $schedule->command('inspire')
         //          ->hourly();
     }

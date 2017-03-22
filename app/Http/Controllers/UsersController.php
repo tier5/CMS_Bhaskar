@@ -104,24 +104,5 @@ public function home()
 	}
 
 
-	public function storeclientdetails(Request $request)
-	{
-		if($request){
-					$client=new Client();
-					$client->session_id=$request->data['session'];
-					$client->ip=$request->data['ip'];
-					$client->flag_img=$request->data['flag_img'];
-					$client->browser_name=$request->data['browser_name'];
-					$client->browser_platform=$request->data['browser_platform'];
-					$client->page=$request->data['path'];
-					$client->country=$request->data['country'];
-					$client->city=$request->data['city'];
-					$client->status=$request->data['status'];
-					if($client->save())
-						{	Session::put('key',Session::getid());
-							echo 'success';}
-					else
-						{echo 'error';}
-		}
-	}
+	
 }

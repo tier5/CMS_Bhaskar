@@ -4,6 +4,7 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+
 class Kernel extends HttpKernel
 {
     /**
@@ -18,7 +19,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        
+        \GeneaLabs\LaravelCaffeine\Http\Middleware\LaravelCaffeineDripMiddleware::class,
+
     ];
 
     /**
@@ -58,4 +60,21 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
+
+/*
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->call(function () {
+           $datetime=Carbon::now();
+           $clients=Client::all();
+           foreach($clients as $client)
+           {
+            if($client->updated_at!=$datetime)
+            {
+                $client->status=0;
+            }
+           }
+        })->everyMinute();
+    }*/
+
 }

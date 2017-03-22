@@ -125,9 +125,10 @@
 
 
 <div id="start">
+@if(isset($portfolios))
+   
  <div class="row" id="tags_portfolio">
- @if(isset($portfolios))
-    @foreach($portfolios as $portfolio)
+ @foreach($portfolios as $portfolio)
         <div class="col-md-4 col-sm-6 portfolio-item">
                     <a onclick="startmodal({{$portfolio->id}})" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
@@ -143,13 +144,18 @@
                     </div>
                 </div>
                 @endforeach
-             @endif
+             
                
-        <div align="center">
-        @include('PortFolio.pagination')
+       
+</div>
+
+@endif
+</div>
+ <div align="center">
+        @if(isset($portfolios))
+        {{$portfolios->links()}}
+        @endif
         </div>
-</div>
-</div>
     </section>
 
 

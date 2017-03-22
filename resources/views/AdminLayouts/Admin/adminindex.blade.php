@@ -1,6 +1,17 @@
     @extends('AdminLayouts.master')
 
     @section('content')
+    <script>
+    $(document).ready(function(){
+
+        setInterval(function(){ loadtable() },3000);
+    });
+
+    function loadtable()
+    {
+        $('#table').load(window.location + ' #table');
+    }
+    </script>
       <div class="row">
                    
                     <div class="col-lg-8">
@@ -14,7 +25,7 @@
                     <div class="col-lg-6">
                         <h2>Visitors</h2>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-striped" id="table">
                                 <thead>
                                     <tr>
                                         <th>IP</th>
@@ -44,6 +55,7 @@
                                     </tr>
                                     @if(isset($clients))
                                     @foreach($clients as $client)
+                                    @if($client->status==1)
                                     <tr class="danger">
                                         <td>{{$client->ip}}</td>
                                         <td>{{$client->browser_name}}</td>
@@ -54,6 +66,7 @@
                                         <td><img src="{{$client->flag_img}}"></td>
                                         <td><button type="button" class="btn btn-sm btn-danger">Danger</button></td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                     @endif
                                     <tr class="warning">

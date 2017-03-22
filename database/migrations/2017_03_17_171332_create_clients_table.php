@@ -15,7 +15,7 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('session_id');
+            $table->string('session_id')->unique();
             $table->string('ip');
             $table->string('user_name')->nullable();
             $table->text('flag_img')->nullable();

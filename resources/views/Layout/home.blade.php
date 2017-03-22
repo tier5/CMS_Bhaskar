@@ -19,8 +19,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
-    <!-- Plugin CSS -->
-    <link href="/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
 
     <!-- Theme CSS -->
     <link href="/css/creative.min.css" rel="stylesheet">
@@ -35,48 +34,55 @@
 
 <script>
     $(document).ready(function(){
+   
+  getip();
 
-  if(!'{{Session::has("key")}}')
-      { $.ajax({
-                          url:"{{route('ip')}}",
-                          type:"post",
-                          data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
-                          success:function(response)
-                          {   
-                              
-                              data=response;
-       
-                               $.ajax({
-                                    
-                                url:"{{route('storeclient')}}",
-                                type:"post",
-                                data:{data:data, _token:"{{Session::token()}}"},
-            
-                                success:function(response)
-                                    {
-                                       return;
-                                    }
-          
-                             });
-                               
-                             
-              
-                          }
-                      });
-             }
-        else
-        {
-          return;
-        } 
+  setInterval(function(){ timer() }, 1000);
+
 
     });
+
+
+function getip()
+{
+   
+
+          $.ajax({
+                    url:"{{route('ip')}}",
+                    type:"post",
+                    data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
+                    success:function(response)
+                          {             
+                          return
+                          }
+              
+  });
+
+}      
+
+
+function timer()
+{
+   
+
+          $.ajax({
+                    url:"{{route('updateclient')}}",
+                    type:"post",
+                    data:{id:"{{Session::getid()}}", _token:"{{Session::token()}}"},
+                    success:function(response)
+                          {             
+                          return
+                          }
+  });
+}      
+
+
 
     </script> 
  
 </head>
 
 <body id="page-top">
-
 
 @include('Layout.nav')
 @include('Layout.header')
@@ -106,8 +112,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     
     <script src="/vendor/scrollreveal/scrollreveal.min.js"></script>
-    <script src="/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
+   
     <!-- Theme JavaScript -->
     <script src="/js/creative.min.js"></script>
 
