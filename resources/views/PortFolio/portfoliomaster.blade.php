@@ -19,13 +19,11 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
-    <!-- Plugin CSS -->
-    <link href="/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
-
+    
     <!-- Theme CSS -->
     <link href="/css/creative.min.css" rel="stylesheet">
     <link href="/css/agency.min.css" rel="stylesheet">
-
+    <link href="/css/style.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -33,6 +31,57 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<script>
+    $(document).ready(function(){
+   
+  getip();
+
+  setInterval(function(){ timer() }, 1000);
+
+
+    });
+
+
+function getip()
+{
+   
+
+          $.ajax({
+                    url:"{{route('ip')}}",
+                    type:"post",
+                    data:{path:"{{Route::current()->uri()}}", _token:"{{Session::token()}}"},
+                    success:function(response)
+                          {             
+                          return
+                          }
+              
+  });
+
+}      
+
+
+function timer()
+{
+   
+
+          $.ajax({
+                    url:"{{route('updateclient')}}",
+                    type:"post",
+                    data:{id:"{{Session::getid()}}", _token:"{{Session::token()}}"},
+                    success:function(response)
+                          {             
+                          return
+                          }
+  });
+}      
+
+
+
+    </script> 
+ 
+
 
 </head>
 
@@ -44,6 +93,7 @@
         $('#name').focus();
 
     });
+
 
 </script>
 

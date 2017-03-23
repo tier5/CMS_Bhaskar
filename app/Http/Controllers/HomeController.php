@@ -9,6 +9,7 @@ use App\Tag;
 use App\Client;
 use App\Portfolio;
 use Carbon\Carbon;
+//use BrowscapPHP\Browscap;
 
 
 class HomeController extends Controller
@@ -19,7 +20,17 @@ public function index()
     if(Portfolio::first())
     {
         $portfolios=Portfolio::take(6)->get();
-        return view('Layout.home',compact('portfolios'));
+        if(Client::first()){
+
+                $client=Client::find(['session_id'=>Session::getid()]);
+                if($client->first())
+                {$chatsall=$client->chats;
+                                return view('Layout.home',compact('portfolios','chatsall'));}
+                else
+                    { return view('Layout.home',compact('portfolios'));}
+                            }
+                else
+                    { return view('Layout.home',compact('portfolios'));}
     }
     else
     {
@@ -33,6 +44,7 @@ public function get_details(Request $request) {
      $ipfind = new IPFind('8e6e5fbb-bc85-41e4-8a90-8995894eb24d');
      $result = $ipfind->fetchIPAddress('8.8.8.8');
      $url = 'https://ipfind.co/flag?ip='.$result->ip_address."&auth=8e6e5fbb-bc85-41e4-8a90-8995894eb24d";
+   //  $browscap = new Browscap();
             $client=new Client();
             $client->session_id=Session::getid(); 
             $client->ip=$result->ip_address;
@@ -121,6 +133,7 @@ public function changetag(Request $request)
 public function updateclient(Request $request)
 {
  // return $request->id;
+ // if(Session::)
 $var=$request->id;
 $date=Carbon::now();
 $update=Client::where('session_id',$var)->update(['updated_at'=>$date]);
@@ -160,5 +173,20 @@ $portfolio=Portfolio::find($request->id);
 return json_encode($portfolio);
 }
 
+public function storename(Request $request)
+{
+    $this->validate($request,[
+        'input_name'=>$request->name,
+        ]);
+    if($client=Client::where('session_id','=',$request->id)->update(['user_name'=>$request->name]))
+    {
+        return 'success';
+    }
+    else
+    {
+        return 'error';   
+    }
+
+}
 
 }

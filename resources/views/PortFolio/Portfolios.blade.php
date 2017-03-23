@@ -49,16 +49,16 @@
     $('#portfolioModalLink').html(parsed.project_link);
 
     if(parsed.project_details1)
-    {$('#portfolioDetails1').html(parsed.project_details1);}
+    {$('#portfolioDetails1').html("** "+parsed.project_details1+" **");}
     else
     {$("#portfolioDetails1").css("display", "none");}
 
     if(parsed.project_details2)
-    {$('#portfolioDetails2').html(parsed.project_details2);}
+    {$('#portfolioDetails2').html("** "+parsed.project_details2+" **");}
     else
     {$("#portfolioDetails2").css("display", "none");}
     if(parsed.project_details3)
-    {$('#portfolioDetails3').html(parsed.project_details3);}
+    {$('#portfolioDetails3').html("** "+parsed.project_details3+" **");}
     else
     {$("#portfolioDetails3").css("display", "none");}
     $('#portfolioModalDate').html(parsed.created_at);
@@ -187,11 +187,14 @@
                                  <a id="portfolioModalLink"></a></p>
                                  <hr></center>
 
-                                <ul><strong>Details: </strong>
-                                    <li id="portfolioDetails1"></li>
-                                    <li id="portfolioDetails2"></li>
-                                    <li id="portfolioDetails3"></li>
-                                </ul> 
+                                <center><strong>Details: </strong>
+                                <hr>
+                                    <p id="portfolioDetails1"></p>
+                                <hr>
+                                    <p id="portfolioDetails2"></p>
+                                <hr>
+                                    <p id="portfolioDetails3"></p>
+                                 <center>
                                 <hr>
                                 <center><ul class="list-inline">
                                     <li id="portfolioModalDate"><strong>Date:</strong></li>

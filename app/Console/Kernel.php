@@ -45,7 +45,9 @@ class Kernel extends ConsoleKernel
                $client->update();
              }
            }
-       })->everyMinute();
+       }
+      
+       )->everyMinute();
         // $schedule->command('inspire')
         //          ->hourly();
     }

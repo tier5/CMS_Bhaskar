@@ -42,6 +42,10 @@ Route::get("/goneclient",'HomeController@clientgone')->name('client_gone');
 Route::post('/getportfolio',"HomeController@getportfolio")->name('getportfolio');
 
 Route::post('/updateclient',"HomeController@updateclient")->name('updateclient');
+
+Route::post('/storeclientname',"HomeController@storename")->name('updatename');
+
+Route::post('/sendmessage','ChatsController@save')->name('sendmessage');
 });
 
 

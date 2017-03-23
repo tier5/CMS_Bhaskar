@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+	public function chats()
+	{
+		return $this->hasMany(Chat::class);
+	}
     //
 }

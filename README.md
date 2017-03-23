@@ -10,4 +10,5 @@ v1.1.2:->FrontEnd Modification(Few Glitches There)
 v1.1.3:->FrontEnd Glitches Fixed
 	->FrontEnd Pagination Finished
 	->Client Information Is Now Done And Can Be Displayed In The Admin Dashboard.(Only disadvantage is one minute delay in viewing the updated Client Details).
+v1.1.4->Chat Functionality Incorportated(Not Complete)
 
