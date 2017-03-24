@@ -57,13 +57,9 @@ Route::post('/sendmessage','ChatsController@save')->name('sendmessage');
 
 
 
-Route::group(['middleware'=>['web','auth']],function(){
-
+Route::group(['middleware'=>'auth'],function(){
 
 Route::get('/adminhome','UsersController@adminhome')->name('Admin_home');
-
-Route::get('/logout','UsersController@logout')->name('logout');
-
 
 Route::get('/createportfolios','PortfoliosController@createportfolios')->name('createportfolios');
 
@@ -104,6 +100,9 @@ Route::post('/deletetags','TagsController@deletetags')->name('deletetags');
 
 Route::post('/updatetags','TagsController@updatetags')->name('saveedittags');
 
+Route::get('/chat/{id}','ChatsController@chatviewadmin')->name('adminchat');
+
+Route::post('/sendmessageadmin','ChatsController@sendmessageadmin')->name('sendmessageadmin');
 
 
 /*
@@ -157,3 +156,5 @@ Route::post('/createsessions','SessionsController@store')->name('createsessions'
 
 
 });
+
+Route::get('/logout','UsersController@logout')->name('logout')->middleware('auth');

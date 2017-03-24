@@ -33,37 +33,62 @@ public function index()
                     { return view('Layout.home',compact('portfolios'));}
     }
     else
-    {
-        return view('Layout.home');
+    { 
+      if(count(Client::all())>1){
+            $client=Client::where('session_id','=',Session::getid())->first();
+              if($client)
+                { 
+                  $chatsall=$client->chats;
+                
+                  return view('Layout.home',compact('chatsall'));
+                }
+                  else
+                {
+                  return view('Layout.home');
+                }
+           }
     }
 }
-
 public function get_details(Request $request) {
    
-  if(!Session::has('key')){
-     $ipfind = new IPFind('8e6e5fbb-bc85-41e4-8a90-8995894eb24d');
-     $result = $ipfind->fetchIPAddress('8.8.8.8');
-     $url = 'https://ipfind.co/flag?ip='.$result->ip_address."&auth=8e6e5fbb-bc85-41e4-8a90-8995894eb24d";
-   //  $browscap = new Browscap();
-            $client=new Client();
-            $client->session_id=Session::getid(); 
-            $client->ip=$result->ip_address;
-            $client->flag_img=$url;
-            $client->browser_name=get_browser()->browser;
-            $client->browser_platform=get_browser()->platform;
-            $client->page=$request->path;
-            $client->country=$result->country;
-            $client->city=$result->city;
-            $client->status=1;
-            if($client->save())
-              { Session::put('key',Session::getid());
-                echo 'success';}
-            else
-              {echo 'error';}
+  if(\Auth::check()===false){
+    if(!Session::has('key'))
+      {     
+          $ipfind = new IPFind('8e6e5fbb-bc85-41e4-8a90-8995894eb24d');
+          $result = $ipfind->fetchIPAddress('8.8.8.8');
+          $url = 'https://ipfind.co/flag?ip='.$result->ip_address."&auth=8e6e5fbb-bc85-41e4-8a90-8995894eb24d";
+        //  $browscap = new Browscap();
+                 $client=new Client();
+                 $client->session_id=Session::getid(); 
+                 $client->ip=$result->ip_address;
+                 $client->flag_img=$url;
+                 $client->browser_name=get_browser()->browser;
+                 $client->browser_platform=get_browser()->platform;
+                 $client->page=$request->path;
+                 $client->country=$result->country;
+                 $client->city=$result->city;
+                 $client->status=1;
+                 if($client->save())
+                   { 
+                    Session::put('key',Session::getid());
+                     echo 'success';
+                   }
+                 else
+                   {
+                    echo 'error';
+                   }
      }
      else
      {
-      echo 'already there';
+        echo 'there';
+     }
+
+
+
+          }
+     else
+     {
+      return 'admin';
      }
 }
 
@@ -175,9 +200,7 @@ return json_encode($portfolio);
 
 public function storename(Request $request)
 {
-    $this->validate($request,[
-        'input_name'=>$request->name,
-        ]);
+    
     if($client=Client::where('session_id','=',$request->id)->update(['user_name'=>$request->name]))
     {
         return 'success';

@@ -36,12 +36,14 @@
     $(document).ready(function(){
    
   getip();
-
+    $('#input-name').focus();
+    $('#input-name').val("");
 
         $('#btn-sendname').click(function(){
 
-            var name=$('#btn-input-name').val();
-            if(name!=''.trim())
+            var name=$('#input-name').val();
+            name = name.replace(/\s/g, "");
+            if(name!="")
             {
                 $.ajax({
                 
@@ -53,24 +55,27 @@
                 {
                     if(response=='success')
                         {
-                            $('#btn-input').css('display','block');
+                          console.log(response);
+                            $('#input-chat').css('display','block');
+                            $('#input-chat').val("");
                             $('#btn-chat').css('display','block');
                             $('#btn-sendname').css('display','none');
-                            $('#btn-input-name').css('display','none');
+                            $('#input-name').css('display','none');
                             
                             var input = document.createElement("input");
-                            input.setAttribute("type", "hidden");
-                        input.setAttribute("name", "name");
-                        input.setAttribute("id", "name");
-                        input.setAttribute("value", name);
+                        
 
-//append to form element that you want .
-                document.getElementById("msg").appendChild(input);
-
+                        input.setAttribute("type", "hidden");
+                        input.setAttribute("name", "session");
+                        input.setAttribute("id", "session");
+                        input.setAttribute("value", "{{Session::getid()}}");
+                        document.getElementById("msg").appendChild(input);
                         }
                     else if(response=='error')
                     {
-                            $('#msg').html(response);
+                      console.log(response);
+                            $('#input-name').val(response);
+                  
                              
                     }
 
@@ -79,7 +84,9 @@
             }
             else
             {
-                $('#msg').html('Name');
+                    var input = document.getElementById("input-name");
+                    input.setAttribute('placeholder','Enter-A-Name');
+                    $('#input-name').focus();
             }
         });
 
@@ -87,21 +94,24 @@
 
         $('#btn-chat').click(function(){
 
-            var val=$('#btn-input').val();
-            var name=$('#name').val();
-            if(val!=''.trim()&&name)
+            var text=$('#input-chat').val();
+            var id=$('#session').val();
+            text = text.replace(/\s/g, "");
+            if(text!=''&&id)
             {
                 $.ajax({
                 
                 url:"{{route('sendmessage')}}",
                 type:'post',
-                data:{val:val,name:name, _token:"{{Session::token()}}"},
+                data:{id:id,text:text, _token:"{{Session::token()}}"},
 
                 success:function(response)
                 {
+
+
                     if(response=='success')
                         {
-                           $('.chat-body clearfix').load(window.location + ' .chat-body clearfix');  
+                         setInterval(function(){$('#chat_body').load(window.location + ' #chat_body');},1000);  
 
                         }
                     else if(response=='error')
@@ -135,7 +145,24 @@ function getip()
                     data:{path:"{{Route::current()->getname()}}", _token:"{{Session::token()}}"},
                     success:function(response)
                           {             
-                          return
+                             if(response=='admin')
+                             {
+                              return;
+                             }
+                             else if(response=='success')
+                             {
+                              location.reload();
+                               setInterval(function(){ timer() }, 1000);
+                              
+                             }
+                             else if(response=='there')
+                             {
+                               setInterval(function(){ timer() }, 1000);
+                             }
+                             else
+                             {
+                              return;
+                             }
                           }
               
   });
@@ -153,7 +180,7 @@ function timer()
                     data:{id:"{{Session::getid()}}", _token:"{{Session::token()}}"},
                     success:function(response)
                           {             
-                          return
+                          console.log(response);
                           }
   });
 }      
@@ -201,13 +228,14 @@ function timer()
                         <li class="left clearfix"><span class="chat-img pull-left">
                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
                         </span>
-                            <div class="chat-body clearfix">
+                            <div class="chat-body clearfix" id="chat_body">
                                 <div class="header">
                                     <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
                                         <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
                                 </div>
-                              @if(isset($chats))
-                                @foreach($chats as $chat)
+
+                              @if(isset($chatsall))
+                                @foreach($chatsall as $chat)
                                   <p>
                                      {{$chat->message}}                              
                                    </p>
@@ -260,15 +288,17 @@ function timer()
                     </ul>
                 </div>
                 <div class="panel-footer">
-                    <div class="input-group">
-                    <input id="btn-input-name" type="text" class="form-control input-sm" placeholder="Enter Your Name" name="input_name" required/>
-                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." name="input_chat" style="display:none" required />
-                        <span class="input-group-btn" id="msg">
+                    <div class="input-group" id="input">
+                    <input id="input-name" type="text" class="form-control input-sm" placeholder="Enter Your Name" name="input_name" required/>
+                        <input id="input-chat" type="text" class="form-control input-sm" placeholder="Type your message here..." name="input_chat" style="display:none" required />
+                          <center><span id="msg"></span></center>
+                        <span class="input-group-btn" >
                             <button class="btn btn-warning btn-sm" id="btn-sendname">
                                 Send</button>
 
                                 <button class="btn btn-warning btn-sm" id="btn-chat" style="display:none">
                                 Chat</button>
+                              
                         </span>
                     </div>
                 </div>

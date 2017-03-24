@@ -35,7 +35,7 @@ public function login(Request $request)
 		{
 			if(Auth::attempt($valid,true))
 				{
-				
+
 					return redirect()->intended('adminhome');		
 				}
 			else
@@ -76,6 +76,7 @@ public function home()
 		public function logout()
 
 	{
+			Session::flush();
 			Auth::logout();
 			return redirect()->route('Home');
 	}
@@ -91,6 +92,7 @@ public function home()
 
 	public function adminhome()
 	{
+
 
 		if(Client::first())
 		{
