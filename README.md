@@ -15,4 +15,6 @@ v1.1.5->Session Issue Fixed Regarding Authenticated Users
       ->Chat Functionality From User Side And Admin Side Incorporated
       ->Chat Module(View And Functionality:Display Chats(Not Ordered Fashion) Created In AdminDashboard)
       ->Admin Can Now View Both Active And Inactive Users And Start A Chat Session With Each Other. 
- 
+v1.1.6->Chat Functionality Completed
+      ->Chat Logs Functionality Completed
+      ->Bugs Fixed 

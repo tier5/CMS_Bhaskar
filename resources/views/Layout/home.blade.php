@@ -96,9 +96,11 @@
 
             var text=$('#input-chat').val();
             var id=$('#session').val();
-            text = text.replace(/\s/g, "");
+                   if(text==" ")
+           { text = text.replace(/\s/g, "");}
             if(text!=''&&id)
             {
+                $('#input-chat').val("");
                 $.ajax({
                 
                 url:"{{route('sendmessage')}}",
@@ -111,7 +113,7 @@
 
                     if(response=='success')
                         {
-                         setInterval(function(){$('#chat_body').load(window.location + ' #chat_body');},1000);  
+                         setInterval(function(){$('#chat').load(window.location + ' #chat');},1000);  
 
                         }
                     else if(response=='error')
@@ -124,7 +126,9 @@
             }
             else
             {
-                $('#msg').html('Name');
+                var input = document.getElementById("input-chat");
+                    input.setAttribute('placeholder','Write Something');
+                    $('#input-chat').focus();
             }
         });
 
@@ -209,6 +213,7 @@ function timer()
 
 @include('Layout.contact')
 
+@if(!Auth::check())
 <div class="container chat-section" >
     <div class="row">
         <div class="col-md-5">
@@ -224,68 +229,50 @@ function timer()
 
             <div class="panel-collapse collapse" id="collapseOne">
                 <div class="panel-body">
+                  <div id="chat">
                     <ul class="chat">
-                        <li class="left clearfix"><span class="chat-img pull-left">
+                        @if(isset($chatsall))
+                                @foreach($chatsall as $chat)
+                                    @if($chat->client_id==1)
+
+
+                        <div class="left clearfix"><span class="chat-img pull-left">
                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
                         </span>
                             <div class="chat-body clearfix" id="chat_body">
                                 <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+                                    <strong class="primary-font">{{$chat->client->user_name}}</strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{$chat->created_at->diffforHumans()}}</small>
                                 </div>
-
-                              @if(isset($chatsall))
-                                @foreach($chatsall as $chat)
+ 
+                          
                                   <p>
                                      {{$chat->message}}                              
                                    </p>
-                                  @endforeach
+                            </div>
+                        </div>
+                        <hr>
+                        @else
+                        <div class="right clearfix"><span class="chat-img pull-right">
+                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+                        </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>{{$chat->created_at->diffforHumans()}}</small>
+                                    <strong class="pull-right primary-font">{{$chat->client->user_name}}</strong>
+                                </div >
+                                <p align="right">
+                                   {{$chat->message}}                
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        @endif
+                          @endforeach
                                   @endif
-                            </div>
-                        </li>
-                        <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-                        </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-                                    <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                    dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                        </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                    dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-                        </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>15 mins ago</small>
-                                    <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                    dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
+                       
                     </ul>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="input-group" id="input">
@@ -307,6 +294,7 @@ function timer()
         </div>
     </div>
 </div>     
+@endif
 
   <!-- jQuery -->
     <script src="/vendor/jquery/jquery.min.js"></script>

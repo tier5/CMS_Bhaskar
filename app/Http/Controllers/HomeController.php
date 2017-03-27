@@ -8,6 +8,7 @@ use Session;
 use App\Tag;
 use App\Client;
 use App\Portfolio;
+use App\Chat;
 use Carbon\Carbon;
 //use BrowscapPHP\Browscap;
 
@@ -20,33 +21,72 @@ public function index()
     if(Portfolio::first())
     {
         $portfolios=Portfolio::take(6)->get();
-        if(Client::first()){
-
-                $client=Client::find(['session_id'=>Session::getid()]);
-                if($client->first())
-                {$chatsall=$client->chats;
-                                return view('Layout.home',compact('portfolios','chatsall'));}
-                else
-                    { return view('Layout.home',compact('portfolios'));}
-                            }
-                else
-                    { return view('Layout.home',compact('portfolios'));}
+        if(count(Client::all())>1){
+           $client=Client::where('session_id','=',Session::getid())->first();
+              if($client)
+                {
+                      if($client->chats->first())
+                        {    
+                             $chatsall=Chat::whereIn('client_id',[$client->id,1])->whereIn('to',[1,$client->id])->get();
+                               
+                               if($chatsall)
+                                 { 
+                                        //$chatsall=$client->chats;
+                                      
+                                   return view('Layout.home',compact('chatsall','portfolios'));
+                                 }
+                               else
+                                 {
+                                   return view('Layout.home',compact('portfolios'));
+                                 }
+                         }
+                       else
+                         {
+                            return view('Layout.home',compact('portfolios'));
+                         }  
+            }
+            else
+            {
+               return view('Layout.home',compact('portfolios'));
+            }
+         }
     }
     else
     { 
       if(count(Client::all())>1){
-            $client=Client::where('session_id','=',Session::getid())->first();
-              if($client)
-                { 
-                  $chatsall=$client->chats;
-                
-                  return view('Layout.home',compact('chatsall'));
-                }
-                  else
-                {
-                  return view('Layout.home');
-                }
-           }
+
+           $client=Client::where('session_id','=',Session::getid())->first();
+           if($client)
+           {
+                      if($client->chats->first())
+                        {    
+                             $chatsall=Chat::whereIn('client_id',[$client->id,1])->whereIn('to',[1,$client->id])->get();
+                               
+                               if($chatsall)
+                                 { 
+                                        //$chatsall=$client->chats;
+                                      
+                                   return view('Layout.home',compact('chatsall'));
+                                 }
+                               else
+                                 {
+                                   return view('Layout.home');
+                                 }
+                         }
+                       else
+                         {
+                            return view('Layout.home');
+                         }  
+            }
+            else
+            {
+               return view('Layout.home');
+            }
+         }
+         else
+         {
+          return view('Layout.home');
+         }
     }
 }
 public function get_details(Request $request) {
@@ -98,17 +138,75 @@ public function get_details(Request $request) {
         if(Tag::first())
         {
                 $tag_default=Tag::all();
-                if(Portfolio::first())
-                    { 
-                        $portfolios=Portfolio::paginate(6);
-                      
-                        return view('PortFolio.Portfolios',compact('tag_default','portfolios'));
-                         }else
+                    if(Portfolio::first())
+                      {
+                          $portfolios=Portfolio::paginate(6);
+                            if(count(Client::all())>1){
+                              $client=Client::where('session_id','=',Session::getid())->first();
+                                if($client)
+                                 {
+                                    if($client->chats->first())
+                                      {    
+                                        $chatsall=Chat::whereIn('client_id',[$client->id,1])->whereIn('to',[1,$client->id])->get();
+                               
+                                        if($chatsall)
+                                         { 
+                                        //$chatsall=$client->chats;
+                                      
+                                           return view('PortFolio.Portfolios',compact('chatsall','portfolios','tag_default'));
+                                          }
+                                         else
+                                          {
+                                           return view('PortFolio.Portfolios',compact('portfolios','tag_default'));
+                                          }
+                                       }
+                                    else
+                                      {
+                                           return view('PortFolio.Portfolios',compact('portfolios','tag_default'));
+                                      }      
+            }
+            else
+            {
+               return view('PortFolio.Portfolios',compact('portfolios','tag_default'));
+            }
+         }
+    }
+    else
+    { 
+      if(count(Client::all())>1){
+           $client=Client::where('session_id','=',Session::getid())->first();
+           if($client)
+           {
+                      if($client->chats->first())
+                        {    
+                             $chatsall=Chat::whereIn('client_id',[$client->id,1])->whereIn('to',[1,$client->id])->get();
+                               
+                               if($chatsall)
+                                 { 
+                                        //$chatsall=$client->chats;
+                                      
+                                   return view('PortFolio.Portfolios',compact('chatsall','tag_default'));
+                                 }
+                               else
+                                 {
+                                   return view('PortFolio.Portfolios',compact('tag_default'));
+                                 }
+                         }
+                       else
                          {
                             return view('PortFolio.Portfolios',compact('tag_default'));
-                          }
-        }
+                         }  
+            }
             else
+            {
+               return view('PortFolio.Portfolios',compact('tag_default'));
+            }
+          }
+      
+         }
+        
+        }
+        else
             {
                 return view('PortFolio.Portfolios');  
             }
@@ -201,7 +299,9 @@ return json_encode($portfolio);
 public function storename(Request $request)
 {
     
-    if($client=Client::where('session_id','=',$request->id)->update(['user_name'=>$request->name]))
+    $client=Client::where('session_id','=',$request->id)->update(['user_name'=>$request->name]);
+
+    if($client)
     {
         return 'success';
     }
@@ -212,4 +312,10 @@ public function storename(Request $request)
 
 }
 
+public function chatlogs()
+{
+$clients=Client::latest()->paginate(15);
+
+return view('AdminLayouts.Admin.chatlogs',compact('clients'));
+}
 }

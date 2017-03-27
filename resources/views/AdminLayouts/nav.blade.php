@@ -151,9 +151,9 @@
                     </ul>
                     </li>
                     
-                   <li class="@if(Route::current()->getName()=='createportfolios'){{'active'}}@endif">
+                   <li class="@if(Route::current()->getName()=='chatlogs'){{'active'}}@endif">
                   
-                        <a href="forms.html"><i class="fa fa-fw fa-history"></i> Chat Logs</a>
+                        <a href="{{route('chatlogs')}}"><i class="fa fa-fw fa-history"></i> Chat Logs</a>
                     </li>
                     
                 </ul>

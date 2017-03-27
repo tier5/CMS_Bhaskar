@@ -12,6 +12,26 @@
         $('#table').load(window.location + ' #table');
         $('#table2').load(window.location + ' #table2');
     }
+
+    function block(id)
+    {
+        if(id)
+        {
+            $.ajax({
+                url:"{{route('blockuser')}}",
+                type:'post',
+                data:{id:id, _token:"{{Session::token()}}" },
+
+                success:function(response)
+                    {
+
+
+                    }
+
+            });
+        }
+
+    }
     </script>
 
       <div class="row">
@@ -121,7 +141,7 @@
                                         <td>{{$client->city}}</td>
 
                                         <td><img src="{{$client->flag_img}}"></td>
-                                        <td><button type="button" class="btn btn-sm btn-danger">Danger</button></td>
+                                        <td><button onclick="block({{$client->id}})" type="button" class="btn btn-sm btn-danger">Danger</button></td>
                                         <td><a href="{{route('adminchat',['id'=> $client->id ])}}"type="button" class="btn btn-sm btn-success">CHAT</button></a>
                                     </tr>
                                     @endif

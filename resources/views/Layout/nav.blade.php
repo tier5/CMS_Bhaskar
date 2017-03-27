@@ -20,6 +20,11 @@
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
+                    @if(Auth::check())
+                    <li>
+                        <a class="page-scroll" href="{{route('Admin_home')}}">Admin Panel</a>
+                    </li>
+                    @endif
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

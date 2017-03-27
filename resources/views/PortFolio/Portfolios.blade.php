@@ -151,14 +151,14 @@
 
 @endif
 </div>
+
+    </section>
+
  <div align="center">
         @if(isset($portfolios))
         {{$portfolios->links()}}
         @endif
         </div>
-    </section>
-
-
      
 
 <div  class="modal fade" role="dialog" id="portfolioModal1">

@@ -46,6 +46,8 @@ Route::post('/updateclient',"HomeController@updateclient")->name('updateclient')
 Route::post('/storeclientname',"HomeController@storename")->name('updatename');
 
 Route::post('/sendmessage','ChatsController@save')->name('sendmessage');
+
+
 });
 
 
@@ -104,7 +106,11 @@ Route::get('/chat/{id}','ChatsController@chatviewadmin')->name('adminchat');
 
 Route::post('/sendmessageadmin','ChatsController@sendmessageadmin')->name('sendmessageadmin');
 
+Route::get('/chatlogs','HomeController@chatlogs')->name('chatlogs');
 
+Route::get('/viewchatlogs/{id}','ChatsController@viewchatlogs')->name('viewchatlogs');
+
+Route::post("/blockusers","UsersController@blockuser")->name('blockuser');
 /*
 Route::get('/auth/register', function () {
   

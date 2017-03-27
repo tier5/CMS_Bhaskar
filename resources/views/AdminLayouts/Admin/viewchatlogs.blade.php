@@ -2,58 +2,7 @@
 
     @section('content')
 
-
-
-<script>
-    $(document).ready(function(){
-    
-    $('#input-chat').focus();
-    $('#input-chat').val("");
-       
-        $('#btn-chat').click(function(){
-
-            var text=$('#input-chat').val();
-            var id="{{$id->id}}";
-            if(text==" ")
-           { text = text.replace(/\s/g, "");}
-            if(text!='')
-            {
-                $('#input-chat').val("");
-                $.ajax({
-                
-                url:"{{route('sendmessageadmin')}}",
-                type:'post',
-                data:{id:id,text:text, _token:"{{Session::token()}}"},
-
-                success:function(response)
-                {
-
-
-                    if(response=='success')
-                        {
-                         setInterval(function(){$('#chat_div').load(window.location + ' #chat_div');},1000);  
-
-                        }
-                    else if(response=='error')
-                    {
-                           
-                    }
-
-                }
-                });
-            }
-            else
-            {
-                var input = document.getElementById("input-chat");
-                    input.setAttribute('placeholder','Write Something');
-                    $('#input-chat').focus();
-            }
-        });
-
- // setInterval(function(){ timer() }, 1000);
-    });
-    </script>
-            <div class="panel panel-primary">
+<div class="panel panel-primary">
                 <div class="panel-heading" id="accordion">
                     <span class="glyphicon glyphicon-comment"></span> Chat
                     
@@ -77,7 +26,7 @@
 
                               
                                 
-                                  <p align="center">
+                                  <p>
                                      {{$chat->message}}                              
                                    </p>
                             </div>
@@ -92,7 +41,7 @@
                                     <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>{{$chat->created_at->diffForHumans()}}</small>
                                     <strong class="pull-right primary-font">{{$chat->client->user_name}}</strong>
                                 </div>
-                                <p align="center">
+                                <p align="right">
                                     {{$chat->message}} 
                                 </p>
                             </div>
@@ -104,21 +53,9 @@
                      </div>
                     </ul>
                 </div>
-                <div class="panel-footer">
-                    <div class="input-group" id="input">
-              
-                        <input id="input-chat" type="text" class="form-control input-sm" placeholder="Type your message here..." name="input_chat" />
-                          <center><span id="msg"></span></center>
-                        <span class="input-group-btn" >
-                            
-
-                                <button class="btn btn-warning btn-sm" id="btn-chat">
-                                Chat</button>
-                              
-                        </span>
-                    </div>
-                </div>
+               
             </div>
             </div>
+  
   
     @endsection

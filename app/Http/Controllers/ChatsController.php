@@ -42,9 +42,15 @@ else
 
 public function chatviewadmin(Client $id)
 {
-	$chat=$id->chats;
-	$chatadmin=Client::where('id','=',1)->first()->chats;
-return view('AdminLayouts.Admin.chat',compact('id','chat','chatadmin'));
+	if($id->chats->first()){
+		$chats=Chat::whereIn('client_id',[1,$id->id])->whereIn('to',[$id->id,1])->get();
+		//$chatadmin=Client::where('id','=',1)->first()->chats;
+		return view('AdminLayouts.Admin.chat',compact('id','chats'));
+	}else
+	{
+		return view('AdminLayouts.Admin.chat',compact('id'));
+	}
+
 }
 
 public function sendmessageadmin(Request $request)
@@ -59,6 +65,17 @@ public function sendmessageadmin(Request $request)
 	}else
 	{
 		return 'error';
+	}
+}
+
+public function viewchatlogs(Client $id)
+{
+	if($id->chats->first()){
+		$chats=Chat::whereIn('client_id',[1,$id->id])->whereIn('to',[$id->id,1])->get();
+		return view('AdminLayouts.Admin.viewchatlogs',compact('chats'));}
+	else
+	{
+		return view('AdminLayouts.Admin.viewchatlogs');
 	}
 }
 }

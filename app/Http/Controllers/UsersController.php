@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use Session;
 use App\Client;
+use App\Block;
 
 class UsersController extends Controller
 {
@@ -105,6 +106,21 @@ public function home()
 		}
 	}
 
+public function blockuser(Request $request)
+{
 
+$blocked=new Block();
+$blocked->client_id=$request->id;
+$blocked->status=1;
+if($blocked->save())
+{
+	return 'success';
+}
+else
+{
+	return 'error';
+}
+
+}
 	
 }
