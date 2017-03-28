@@ -11,4 +11,5 @@ class Client extends Model
 		return $this->hasMany(Chat::class);
 	}
     //
+   
 }

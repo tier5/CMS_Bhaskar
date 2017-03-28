@@ -163,6 +163,12 @@ function getip()
                              {
                                setInterval(function(){ timer() }, 1000);
                              }
+                             else if(response=='not there')
+                             {
+                               var win = window.open("about:blank", "_self"); 
+                               win.close();
+                             }
+                             
                              else
                              {
                               return;

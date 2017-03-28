@@ -10,6 +10,7 @@ use App\Client;
 use App\Portfolio;
 use App\Chat;
 use Carbon\Carbon;
+use App\Block;
 //use BrowscapPHP\Browscap;
 
 
@@ -120,7 +121,37 @@ public function get_details(Request $request) {
      }
      else
      {
-        echo 'there';
+        $client=Client::where('session_id','=',Session::get('key'))->first();
+        if(Block::first())
+        {
+          $block=Block::where('client_id',$client->id)->first();
+          if($block)
+          {
+                    if($block->status==1)
+                    {echo 'not there';}
+                    else
+                    {echo 'there';}
+          }
+          else
+          {
+            echo 'there';
+          }        
+
+        }
+        
+/*
+        if($client->block)
+        {
+                $blocks=$client->block->first();
+                if($blocks->status==1)
+                { echo 'not_there';}
+               else
+                {echo'there';}
+        }
+        else
+        {
+                echo 'there1';
+        }*/
      }
 
 

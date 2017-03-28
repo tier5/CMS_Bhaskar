@@ -76,7 +76,7 @@
                                         <td>{{$client->city}}</td>
 
                                         <td><img src="{{$client->flag_img}}"></td>
-                                        <td><button type="button" class="btn btn-sm btn-danger">Danger</button></td>
+                                        <td><button onclick="block({{$client->id}})" type="button" class="btn btn-sm btn-danger">Block</button></td>
                                     </tr>
                                     @endif
                                     @endif
@@ -141,7 +141,7 @@
                                         <td>{{$client->city}}</td>
 
                                         <td><img src="{{$client->flag_img}}"></td>
-                                        <td><button onclick="block({{$client->id}})" type="button" class="btn btn-sm btn-danger">Danger</button></td>
+                                        <td><button onclick="block({{$client->id}})" type="button" class="btn btn-sm btn-danger">Block</button></td>
                                         <td><a href="{{route('adminchat',['id'=> $client->id ])}}"type="button" class="btn btn-sm btn-success">CHAT</button></a>
                                     </tr>
                                     @endif

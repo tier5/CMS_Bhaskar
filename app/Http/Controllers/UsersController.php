@@ -112,7 +112,8 @@ public function blockuser(Request $request)
 $blocked=new Block();
 $blocked->client_id=$request->id;
 $blocked->status=1;
-if($blocked->save())
+$client=Client::where('id',$request->id)->update(['status'=>0]);
+if($blocked->save()&&$client)
 {
 	return 'success';
 }

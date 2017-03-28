@@ -18,3 +18,4 @@ v1.1.5->Session Issue Fixed Regarding Authenticated Users
 v1.1.6->Chat Functionality Completed
       ->Chat Logs Functionality Completed
       ->Bugs Fixed 
+v1.1.7->Block User Functionality Added
